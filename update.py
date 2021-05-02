@@ -89,7 +89,7 @@ def totalStakedBalance(token) -> int:
                         .build()
     return int(icon_service.call(call), 0)
 
-def get_baln_data() -> dict:
+def get_balanced_data() -> dict:
     sicx_icx_pool = getPoolId(SICX_CONTRACT, ICX_CONTRACT)
     sicx_bnusd_pool = getPoolId(SICX_CONTRACT, BNUSD_CONTRACT)
     baln_bnusd_pool = getPoolId(BALN_CONTRACT, BNUSD_CONTRACT)
@@ -114,7 +114,7 @@ def get_baln_data() -> dict:
     }
 
 # Get ping
-data = get_baln_data()
+data = get_balanced_data()
 print(data)
 
 # get db data
