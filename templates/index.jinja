@@ -77,6 +77,9 @@
     }
   }
 
+  const graphWidth = document.getElementById("graphes").offsetWidth
+  const DEZOOM_FACTOR = Math.round(3500 / graphWidth)
+
   fetch('/readall').then(response => {
     response.json().then(json => {
 
@@ -86,6 +89,7 @@
       }
 
       function dezoom(array, skip) {
+        if (skip == 0) return
         var result = new Array()
         array.forEach((item, index) => {
           if (index % skip === (skip - 1)) {
@@ -95,16 +99,18 @@
         return result
       }
 
+
       const transformData = (input) => {
-        input = dezoom(input, 5)
+        input = dezoom(input, DEZOOM_FACTOR)
         return input.map(arr => {
           return { time: getTimestamp(arr[0]), value: arr[1] }
         })
       }
 
-      const transformDatatotalBalnSupply = (input) => {
-        input = dezoom(input, 5)
-        const balnPrice = dezoom(json['balnBnusdPrice'], 5).map(e => e[1])
+      const transformDatatotalBalnSupply = (input, balnBnusdPrice) => {
+        input = dezoom(input, DEZOOM_FACTOR)
+        balnBnusdPrice = dezoom(balnBnusdPrice, DEZOOM_FACTOR)
+        const balnPrice = balnBnusdPrice.map(e => e[1])
         return input.map((arr, index) => {
           return { time: getTimestamp(arr[0]), value: arr[1] * balnPrice[index] }
         })
@@ -112,7 +118,7 @@
 
       const createChart = (name) => {
         const chart = LightweightCharts.createChart(document.getElementById(name), {
-          width: document.getElementById("graphes").offsetWidth, height: 200,
+          width: graphWidth, height: 200,
           rightPriceScale: {
             borderVisible: false
           },
@@ -125,7 +131,7 @@
 
         switch (name) {
           case 'totalBalnSupply':
-            data = transformDatatotalBalnSupply(json[name])
+            data = transformDatatotalBalnSupply(json[name], json['balnBnusdPrice'])
             break
 
           default:
