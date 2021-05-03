@@ -1,11 +1,11 @@
 <html>
 
 <head>
-  <script type="text/javascript" src="{{ url_for('static', filename='lightweight-charts.standalone.production.js') }}"></script>
+  <script type="text/javascript" src="static/lightweight-charts.standalone.production.js"></script>
   <style>
     @font-face {
       font-family: "balnfont";
-      src: url('/static/baln.otf');
+      src: url('static/baln.otf');
     }
 
     body {
@@ -28,20 +28,32 @@
 
 <body>
   <div id="graphes">
-    <h2>BALN / bnUSD</h2>
+    <h2>Last Update: <span id="now"></span>
+    <br/>
+    <br/>
+    <br/>
+    <h2>BALN / bnUSD Price</h2>
     <div class="graph" id="balnBnusdPrice"></div>
-    <h2>BALN / bnUSD Pool</h2>
+    <h2>BALN / bnUSD Pool (BALN)</h2>
     <div class="graph" id="balnBnusdPool"></div>
     <h2>Staked BALN amount</h2>
     <div class="graph" id="stakedBalnSupply"></div>
     <h2>BALN MarketCap (USD)</h2>
     <div class="graph" id="totalBalnSupply"></div>
-    <h2>sICX / bnUSD</h2>
+    <h2>sICX / bnUSD Price</h2>
     <div class="graph" id="sicxBnusdPrice"></div>
     <h2>sICX / bnUSD Pool</h2>
     <div class="graph" id="sicxBnusdPool"></div>
-    <h2>sICX / ICX Pool</h2>
+    <h2>sICX / ICX Pool (sICX)</h2>
     <div class="graph" id="sicxIcxPool"></div>
+    <h2>BALN / bnUSD APY %</h2>
+    <div class="graph" id="balnBnusdApy"></div>
+    <h2>sICX / bnUSD APY %</h2>
+    <div class="graph" id="sicxBnusdApy"></div>
+    <h2>sICX / ICX APY %</h2>
+    <div class="graph" id="sicxIcxApy"></div>
+    <h2>Loans APY %</h2>
+    <div class="graph" id="loansApy"></div>
   </div>
 </body>
 
@@ -78,7 +90,7 @@
   }
 
   const graphWidth = document.getElementById("graphes").offsetWidth
-  const DEZOOM_FACTOR = Math.round(3500 / graphWidth)
+  const DEZOOM_FACTOR = 0; // Math.round(3500 / graphWidth)
 
   fetch('/readall').then(response => {
     response.json().then(json => {
@@ -89,7 +101,7 @@
       }
 
       function dezoom(array, skip) {
-        if (skip == 0) return
+        if (skip == 0) return array
         var result = new Array()
         array.forEach((item, index) => {
           if (index % skip === (skip - 1)) {
@@ -139,7 +151,6 @@
             break
         }
 
-        // console.log(data)
         const series = chart.addAreaSeries()
         series.setData(data)
         chart.timeScale().fitContent()
@@ -154,6 +165,10 @@
       createChart('sicxBnusdPrice')
       createChart('sicxIcxPool')
       createChart('sicxBnusdPool')
+      createChart('balnBnusdApy')
+      createChart('sicxBnusdApy')
+      createChart('sicxIcxApy')
+      createChart('loansApy')
 
     })
   })

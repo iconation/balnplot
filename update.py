@@ -10,6 +10,7 @@ BALN_CONTRACT = "cxf61cd5a45dc9f91c15aa65831a30a90d59a09619"
 BNUSD_CONTRACT = "cx88fd7df7ddff82f7cc735c871dc519838cb235bb"
 SICX_CONTRACT = "cx2609b924e33ef00b648a409245c7ea394c467824"
 DEX_CONTRACT = "cxa0af3165c08318e988cb30993b3048335b94af6c"
+LOANS_CONTRACT = "cx66d4d90f5f113eba575bf793570135f9b10cece1"
 ICX_CONTRACT = "cx0000000000000000000000000000000000000000"
 SICXICX_POOL_ID = 1
 EXA = 10**18
@@ -101,7 +102,8 @@ def get_balanced_data() -> dict:
         "sicxIcxApy": getAPY('sICX/ICX'),
         "balnBnusdApy": getAPY('BALN/bnUSD'),
         "sicxBnusdApy": getAPY('sICX/bnUSD'),
-        
+        "loansApy": getAPY('Loans'),
+
         "totalBalnSupply": totalSupply(BALN_CONTRACT),
         "stakedBalnSupply": totalStakedBalance(BALN_CONTRACT),
 
@@ -124,6 +126,7 @@ c = conn.cursor()
 c.execute("INSERT INTO balnBnusdApy VALUES (datetime('now', 'localtime'), %f)" % (data['balnBnusdApy'] / APY))
 c.execute("INSERT INTO sicxBnusdApy VALUES (datetime('now', 'localtime'), %f)" % (data['sicxBnusdApy'] / APY))
 c.execute("INSERT INTO sicxIcxApy VALUES (datetime('now', 'localtime'), %f)" % (data['sicxIcxApy'] / APY))
+c.execute("INSERT INTO loansApy VALUES (datetime('now', 'localtime'), %f)" % (data['loansApy'] / APY))
 c.execute("INSERT INTO totalBalnSupply VALUES (datetime('now', 'localtime'), %f)" % (data['totalBalnSupply'] / EXA))
 c.execute("INSERT INTO stakedBalnSupply VALUES (datetime('now', 'localtime'), %f)" % (data['stakedBalnSupply'] / EXA))
 c.execute("INSERT INTO balnBnusdPrice VALUES (datetime('now', 'localtime'), %f)" % (data['balnBnusdPrice'] / EXA))

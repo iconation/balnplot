@@ -18,6 +18,10 @@ def get_all_data(c) -> str:
     "sicxIcxPool": get_table(c, "sicxIcxPool"),
     "sicxBnusdPool": get_table(c, "sicxBnusdPool"),
     "balnBnusdPool": get_table(c, "balnBnusdPool"),
+    "balnBnusdApy": get_table(c, "balnBnusdApy"),
+    "sicxBnusdApy": get_table(c, "sicxBnusdApy"),
+    "sicxIcxApy": get_table(c, "sicxIcxApy"),
+    "loansApy": get_table(c, "loansApy"),
   })
 
 @app.route('/readall')
