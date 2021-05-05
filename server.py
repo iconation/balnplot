@@ -27,8 +27,7 @@ def get_all_data(c) -> str:
 @app.route('/readall')
 def readall():
   conn = sqlite3.connect('./baln.db')
-  c = conn.cursor()
-  data = get_all_data(c)
+  data = get_all_data(conn.cursor())
   conn.close()
   return data  
 
