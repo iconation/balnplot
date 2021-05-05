@@ -1,12 +1,14 @@
 from flask import Flask, render_template, jsonify
 import sqlite3
+import time
 
 app = Flask(__name__)
 
-HOURS = 24 * 7
+SECONDS = 3600 * 24 * 7
 
 def get_table(c, table_name) -> list:
-  c.execute(f"SELECT * FROM {table_name} WHERE time >= Datetime('now', '-{HOURS} hours');");
+  now = int(time.time())
+  c.execute(f"SELECT * FROM {table_name} WHERE time >= {now - SECONDS}");
   return c.fetchall()
 
 def get_all_data(c) -> str:

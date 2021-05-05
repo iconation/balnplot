@@ -115,13 +115,15 @@
 
   const graphWidth = document.getElementById("graphes").offsetWidth - 75;
   const DEZOOM_FACTOR = 0; // Math.round(3500 / graphWidth)
+  function dateToChartTime(date) {
+    return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), 0) / 1000;
+  };
 
   fetch('/readall').then(response => {
     response.json().then(json => {
 
       const getTimestamp = (date) => {
-        const FRANCE_TIME_OFFSET = 10800
-        return Math.round(new Date(date).getTime() / 1000) + FRANCE_TIME_OFFSET
+        return dateToChartTime(new Date(date * 1000))
       }
 
       function dezoom(array, skip) {
@@ -134,7 +136,6 @@
         })
         return result
       }
-
 
       const transformData = (input) => {
         input = dezoom(input, DEZOOM_FACTOR)

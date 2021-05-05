@@ -4,6 +4,7 @@ from iconsdk.builder.call_builder import CallBuilder
 from iconsdk.icon_service import IconService
 from iconsdk.providers.http_provider import HTTPProvider
 import sqlite3
+import time
 
 REWARDS_CONTRACT = "cx10d59e8103ab44635190bd4139dbfd682fa2d07e"
 BALN_CONTRACT = "cxf61cd5a45dc9f91c15aa65831a30a90d59a09619"
@@ -117,23 +118,24 @@ def get_balanced_data() -> dict:
 
 # Get ping
 data = get_balanced_data()
-print(data)
 
 # get db data
 conn = sqlite3.connect('./baln.db')
 c = conn.cursor()
 
-c.execute("INSERT INTO balnBnusdApy VALUES (datetime('now', 'localtime'), %f)" % (data['balnBnusdApy'] / APY))
-c.execute("INSERT INTO sicxBnusdApy VALUES (datetime('now', 'localtime'), %f)" % (data['sicxBnusdApy'] / APY))
-c.execute("INSERT INTO sicxIcxApy VALUES (datetime('now', 'localtime'), %f)" % (data['sicxIcxApy'] / APY))
-c.execute("INSERT INTO loansApy VALUES (datetime('now', 'localtime'), %f)" % (data['loansApy'] / APY))
-c.execute("INSERT INTO totalBalnSupply VALUES (datetime('now', 'localtime'), %f)" % (data['totalBalnSupply'] / EXA))
-c.execute("INSERT INTO stakedBalnSupply VALUES (datetime('now', 'localtime'), %f)" % (data['stakedBalnSupply'] / EXA))
-c.execute("INSERT INTO balnBnusdPrice VALUES (datetime('now', 'localtime'), %f)" % (data['balnBnusdPrice'] / EXA))
-c.execute("INSERT INTO sicxBnusdPrice VALUES (datetime('now', 'localtime'), %f)" % (data['sicxBnusdPrice'] / EXA))
-c.execute("INSERT INTO sicxIcxPool VALUES (datetime('now', 'localtime'), %f)" % (data['sicxIcxPool'] / EXA))
-c.execute("INSERT INTO sicxBnusdPool VALUES (datetime('now', 'localtime'), %f, %f)" % (data['sicxBnusdPool'][0] / EXA, data['sicxBnusdPool'][1] / EXA))
-c.execute("INSERT INTO balnBnusdPool VALUES (datetime('now', 'localtime'), %f, %f)" % (data['balnBnusdPool'][0] / EXA, data['balnBnusdPool'][1] / EXA))
+now = int(time.time())
+
+c.execute(f"INSERT INTO balnBnusdApy VALUES ({now}, {data['balnBnusdApy'] / APY})")
+c.execute(f"INSERT INTO sicxBnusdApy VALUES ({now}, {data['sicxBnusdApy'] / APY})")
+c.execute(f"INSERT INTO sicxIcxApy VALUES ({now}, {data['sicxIcxApy'] / APY})")
+c.execute(f"INSERT INTO loansApy VALUES ({now}, {data['loansApy'] / APY})")
+c.execute(f"INSERT INTO totalBalnSupply VALUES ({now}, {data['totalBalnSupply'] / EXA})")
+c.execute(f"INSERT INTO stakedBalnSupply VALUES ({now}, {data['stakedBalnSupply'] / EXA})")
+c.execute(f"INSERT INTO balnBnusdPrice VALUES ({now}, {data['balnBnusdPrice'] / EXA})")
+c.execute(f"INSERT INTO sicxBnusdPrice VALUES ({now}, {data['sicxBnusdPrice'] / EXA})")
+c.execute(f"INSERT INTO sicxIcxPool VALUES ({now}, {data['sicxIcxPool'] / EXA})")
+c.execute(f"INSERT INTO sicxBnusdPool VALUES ({now}, {data['sicxBnusdPool'][0] / EXA}, {data['sicxBnusdPool'][1] / EXA})")
+c.execute(f"INSERT INTO balnBnusdPool VALUES ({now}, {data['balnBnusdPool'][0] / EXA}, {data['balnBnusdPool'][1] / EXA})")
 
 conn.commit()
 conn.close()
