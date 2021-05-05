@@ -12,16 +12,23 @@
       background: #01002a;
       color: white;
       font-family: "balnfont";
-      padding: 5%;
     }
 
     #graphes {
-      width: 85%;
+      width: 90%;
       margin: auto;
     }
 
     .graph {
       padding-bottom: 30px;
+    }
+
+    .graphgroup {
+      background: #122a4b;
+      padding: 35px;
+      padding-top: 1px;
+      margin-bottom: 30px;
+      border-radius: 10px;
     }
   </style>
 </head>
@@ -32,28 +39,45 @@
     <br/>
     <br/>
     <br/>
-    <h2>BALN / bnUSD Price</h2>
-    <div class="graph" id="balnBnusdPrice"></div>
-    <h2>BALN / bnUSD Pool (BALN)</h2>
-    <div class="graph" id="balnBnusdPool"></div>
-    <h2>Staked BALN amount</h2>
-    <div class="graph" id="stakedBalnSupply"></div>
-    <h2>BALN MarketCap (USD)</h2>
-    <div class="graph" id="totalBalnSupply"></div>
-    <h2>sICX / bnUSD Price</h2>
-    <div class="graph" id="sicxBnusdPrice"></div>
-    <h2>sICX / bnUSD Pool</h2>
-    <div class="graph" id="sicxBnusdPool"></div>
-    <h2>sICX / ICX Pool (sICX)</h2>
-    <div class="graph" id="sicxIcxPool"></div>
-    <h2>BALN / bnUSD APY %</h2>
-    <div class="graph" id="balnBnusdApy"></div>
-    <h2>sICX / bnUSD APY %</h2>
-    <div class="graph" id="sicxBnusdApy"></div>
-    <h2>sICX / ICX APY %</h2>
-    <div class="graph" id="sicxIcxApy"></div>
-    <h2>Loans APY %</h2>
-    <div class="graph" id="loansApy"></div>
+
+    <div class="graphgroup">
+      <h2>Prices</h2>
+      <h4>BALN / bnUSD Price</h4>
+      <div class="graph" id="balnBnusdPrice"></div>
+      <h4>sICX / bnUSD Price</h4>
+      <div class="graph" id="sicxBnusdPrice"></div>
+    </div>
+
+    <div class="graphgroup">
+      <h2>Pools</h2>
+      <h4>BALN / bnUSD Pool (BALN)</h4>
+      <div class="graph" id="balnBnusdPool"></div>
+      <h4>sICX / bnUSD Pool (sICX)</h4>
+      <div class="graph" id="sicxBnusdPool"></div>
+      <h4>sICX / ICX Pool (sICX)</h4>
+      <div class="graph" id="sicxIcxPool"></div>
+    </div>
+
+    <div class="graphgroup">
+      <h2>APYs</h2>
+      <h4>BALN / bnUSD APY %</h4>
+      <div class="graph" id="balnBnusdApy"></div>
+      <h4>sICX / bnUSD APY %</h4>
+      <div class="graph" id="sicxBnusdApy"></div>
+      <h4>sICX / ICX APY %</h4>
+      <div class="graph" id="sicxIcxApy"></div>
+      <h4>Loans APY %</h4>
+      <div class="graph" id="loansApy"></div>
+    </div>
+    
+    <div class="graphgroup">
+      <h2>BALN</h2>
+      <h4>Staked BALN amount</h4>
+      <div class="graph" id="stakedBalnSupply"></div>
+      <h4>BALN MarketCap (USD)</h4>
+      <div class="graph" id="totalBalnSupply"></div>
+    </div>
+    
   </div>
 </body>
 
@@ -89,7 +113,7 @@
     }
   }
 
-  const graphWidth = document.getElementById("graphes").offsetWidth
+  const graphWidth = document.getElementById("graphes").offsetWidth - 75;
   const DEZOOM_FACTOR = 0; // Math.round(3500 / graphWidth)
 
   fetch('/readall').then(response => {
