@@ -17,6 +17,7 @@ def get_all_data(c) -> str:
     "stakedBalnSupply": get_table(c, "stakedBalnSupply"),
     "balnBnusdPrice": get_table(c, "balnBnusdPrice"),
     "sicxBnusdPrice": get_table(c, "sicxBnusdPrice"),
+    "balnSicxPrice": get_table(c, "balnSicxPrice"),
     "sicxIcxPool": get_table(c, "sicxIcxPool"),
     "sicxBnusdPool": get_table(c, "sicxBnusdPool"),
     "balnBnusdPool": get_table(c, "balnBnusdPool"),

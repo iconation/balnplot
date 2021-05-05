@@ -98,6 +98,8 @@ def get_balanced_data() -> dict:
     sicx_icx_stats = getPoolStats(sicx_icx_pool)
     sicx_bnusd_stats = getPoolStats(sicx_bnusd_pool)
     baln_bnusd_stats = getPoolStats(baln_bnusd_pool)
+    balnBnusdPrice = getPriceByName('BALN/bnUSD')
+    sicxBnusdPrice = getPriceByName('sICX/bnUSD')
 
     return {
         "sicxIcxApy": getAPY('sICX/ICX'),
@@ -108,8 +110,9 @@ def get_balanced_data() -> dict:
         "totalBalnSupply": totalSupply(BALN_CONTRACT),
         "stakedBalnSupply": totalStakedBalance(BALN_CONTRACT),
 
-        "balnBnusdPrice": getPriceByName('BALN/bnUSD'),
-        "sicxBnusdPrice": getPriceByName('sICX/bnUSD'),
+        "balnBnusdPrice": balnBnusdPrice,
+        "sicxBnusdPrice": sicxBnusdPrice,
+        "balnSicxPrice": (balnBnusdPrice / sicxBnusdPrice) * EXA,
 
         "sicxIcxPool": int(sicx_icx_stats["quote"], 0),
         "sicxBnusdPool": [int(sicx_bnusd_stats["base"], 0), int(sicx_bnusd_stats["quote"], 0)],
@@ -133,6 +136,7 @@ c.execute(f"INSERT INTO totalBalnSupply VALUES ({now}, {data['totalBalnSupply'] 
 c.execute(f"INSERT INTO stakedBalnSupply VALUES ({now}, {data['stakedBalnSupply'] / EXA})")
 c.execute(f"INSERT INTO balnBnusdPrice VALUES ({now}, {data['balnBnusdPrice'] / EXA})")
 c.execute(f"INSERT INTO sicxBnusdPrice VALUES ({now}, {data['sicxBnusdPrice'] / EXA})")
+c.execute(f"INSERT INTO balnSicxPrice VALUES ({now}, {data['balnSicxPrice'] / EXA})")
 c.execute(f"INSERT INTO sicxIcxPool VALUES ({now}, {data['sicxIcxPool'] / EXA})")
 c.execute(f"INSERT INTO sicxBnusdPool VALUES ({now}, {data['sicxBnusdPool'][0] / EXA}, {data['sicxBnusdPool'][1] / EXA})")
 c.execute(f"INSERT INTO balnBnusdPool VALUES ({now}, {data['balnBnusdPool'][0] / EXA}, {data['balnBnusdPool'][1] / EXA})")
