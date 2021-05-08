@@ -155,6 +155,21 @@
         })
       }
 
+      const transformDataloansApy = (input) => {
+        input = dezoom(input, DEZOOM_FACTOR)
+        let lastValue = input[0][1]
+        let filtered = []
+        input.forEach((item, index) => {
+          if (item[1] < (lastValue * 1.1)) {
+            filtered.push(item)
+            lastValue = item[1]
+          }
+        })
+        return filtered.map(arr => {
+          return { time: getTimestamp(arr[0]), value: arr[1] }
+        })
+      }
+
       const createChart = (name) => {
         const chart = LightweightCharts.createChart(document.getElementById(name), {
           width: graphWidth, height: 300,
@@ -171,6 +186,9 @@
         switch (name) {
           case 'totalBalnSupply':
             data = transformDatatotalBalnSupply(json[name], json['balnBnusdPrice'])
+            break
+          case 'loansApy':
+            data = transformDataloansApy(json[name])
             break
 
           default:
